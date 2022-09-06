@@ -6,16 +6,23 @@
 #include <map>
 #include <algorithm>
 
+ifstream leerArchivo(const string nombreArchivo){
+    ifstream archivo (nombreArchivo);
+    return ifstream;
+}
+
 using namespace std;
 int main(int argc, const char* argv[]){
 
-    float treshold;
-    string nombreArchivo = "prueba.txt";
-
+    float treshold = argv[4];
+    cout << argv[2] << " " << treshold << endl;
     // cin>>nombreArchivo;
-    cin>>treshold;
 
-    ifstream archivo(nombreArchivo);
+    
+    // string nombreArchivo = "prueba.txt";
+    // ifstream archivo(nombreArchivo);
+    ifstream archivo = leerArchivo(argv[2]);
+    
     string linea;
 
     int aux =0; 
@@ -79,6 +86,28 @@ int main(int argc, const char* argv[]){
 
         wordfinal.push_back(alfap[0].second);
 
+        if (alfap[0].first==alfap[1].first && alfap[0].first==alfap[2].first && alfap[0].first==alfap[3].first) {
+            /*random */
+        }else if (alfap[0].first==alfap[1].first && alfap[0].first==alfap[2].first) {
+            /* random */
+        }else if (alfap[0].first==alfap[1].first && alfap[0].first==alfap[3].first) {
+            /* random */
+        }else if (alfap[0].first==alfap[2].first && alfap[0].first==alfap[3].first) {
+            /* random */
+        }else if (alfap[0].first==alfap[1].first)   {
+            /* random */
+        }else if(alfap[0].first==alfap[2].first)    {
+            /* random */
+        }else if (alfap[0].first==alfap[3].first)   {
+            /* random */
+        }
+        
+        
+        
+        
+        
+        
+        
         // wordfinal[iteracion]=alfap[0].second;
         
         
