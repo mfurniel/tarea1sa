@@ -42,7 +42,6 @@ int main(int argc, const char* argv[]){
     // {
     //     cout<<alfap['A']<<endl;
     // }
-    
 
     char alfabeto[4];
     alfabeto[0] = 'A';

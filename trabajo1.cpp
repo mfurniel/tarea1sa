@@ -7,14 +7,18 @@
 #include <algorithm>
 
 using namespace std;
-
 int main(int argc, const char* argv[]){
 
+    float treshold;
     string nombreArchivo = "prueba.txt";
+
+    // cin>>nombreArchivo;
+    cin>>treshold;
+
     ifstream archivo(nombreArchivo);
     string linea;
 
-    int aux =0;    
+    int aux =0; 
     vector <string> w;
     while (getline(archivo, linea)){
         w.push_back(linea); 
@@ -23,16 +27,18 @@ int main(int argc, const char* argv[]){
         cout << *it << endl;
     };
 
-    int N=3;
+    int N=5;
     int M=4;
+
+    int treshold2=treshold*N;
+    cout<<treshold2<<endl;
 
     // for (int i = 0; i < 4; i++)
     // {
     //     cout<<alfap['A']<<endl;
     // }
       
-    char wordfinal[M];
-   
+    vector<char> wordfinal;
     int iteracion=0;
 
     do
@@ -71,7 +77,9 @@ int main(int argc, const char* argv[]){
     
         sort(alfap.begin(), alfap.end());
 
-        wordfinal[iteracion]=alfap[0].second;
+        wordfinal.push_back(alfap[0].second);
+
+        // wordfinal[iteracion]=alfap[0].second;
         
         
         // if (peso0==peso1)
@@ -88,7 +96,33 @@ int main(int argc, const char* argv[]){
 
     } while (iteracion < M);
     
-    cout<<wordfinal<<endl;
+    for (int i = 0; i < M; i++)
+    {
+        cout<<wordfinal[i];
+    }
+    cout<<endl;
     
+    int p=0;
+    int dif=0;
+    for (int i = 0; i < N; i++)
+    {
+        dif=0;
+        for (int j = 0; j < M; j++)
+        {
+            
+            if (wordfinal[j]!=w[i][j])
+            {
+                dif++;
+            } 
+        }
+        if (dif>=treshold2)
+        {
+            p++;
+        }
+         
+    }
+    
+    cout<<dif<<endl;
+
 }
 
