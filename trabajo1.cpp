@@ -10,12 +10,6 @@ using namespace std;
 
 int main(int argc, const char* argv[]){
 
-    
-   
-
-    // string words[100];
-    
-    
     string nombreArchivo = "prueba.txt";
     ifstream archivo(nombreArchivo);
     string linea;
@@ -32,20 +26,11 @@ int main(int argc, const char* argv[]){
     int N=3;
     int M=4;
 
-
-
     // for (int i = 0; i < 4; i++)
     // {
     //     cout<<alfap['A']<<endl;
     // }
-    
-
-    char alfabeto[4];
-    alfabeto[0] = 'A';
-    alfabeto[1] = 'G';
-    alfabeto[2] = 'C';
-    alfabeto[3] = 'T';
-   
+      
     char wordfinal[M];
    
     int iteracion=0;
@@ -63,12 +48,7 @@ int main(int argc, const char* argv[]){
         alfap[2].first = 0;
         alfap[3].first = 0;
 
-        // int peso[4];
-        // peso[0] = 0;
-        // peso[1] = 0;
-        // peso[2] = 0;
-        // peso[3] = 0;
-
+       
         for (int i = 0; i < N; i++)
         {
             if (w[i][iteracion]=='A')
@@ -93,7 +73,7 @@ int main(int argc, const char* argv[]){
 
         wordfinal[iteracion]=alfap[0].second;
         
-        cout<<iteracion<<": "<<wordfinal<<endl;
+        
         // if (peso0==peso1)
         // {
         //     wordfinal[iteracion]=alfabeto[0];
@@ -108,9 +88,7 @@ int main(int argc, const char* argv[]){
 
     } while (iteracion < M);
     
-    
-
-
+    cout<<wordfinal<<endl;
     
 }
 
