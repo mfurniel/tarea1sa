@@ -15,7 +15,7 @@ int N, M, th;
 ifstream leerArchivo(const string& nombreArchivo, const string& threshold)
 {
     ifstream archivo(nombreArchivo);
-
+    
     string linea;
 
     while (getline(archivo, linea))
@@ -31,7 +31,7 @@ ifstream leerArchivo(const string& nombreArchivo, const string& threshold)
     auto it = nombreArchivo.begin();
     int cont = 0; // contador de ' - '
     string s;
-    while (*it != '.')
+    while (*it != '.')  //5-4-001.txt
     {
         if (*it != '-')
         {
@@ -71,7 +71,7 @@ int main(int argc, const char* argv[]){
         archivo = leerArchivo("100-300-001.txt", "0.75");
     }
 
-    cout << "terminé de leer" << endl;
+    cout << "termine de leer" << endl;
 
     vector<char> wordfinal;
     int iteracion=0;
@@ -123,9 +123,9 @@ int main(int argc, const char* argv[]){
 
         // wordfinal.push_back(alfap[0].second);
 
-        if (alfap[0].first==alfap[1].first && alfap[0].first==alfap[2].first && alfap[0].first==alfap[3].first) {
+        if (alfap[0].first==alfap[3].first) {
             wordfinal.push_back(alfap[rand()%4].second);
-        }else if (alfap[0].first==alfap[1].first && alfap[0].first==alfap[2].first) {
+        }else if (alfap[0].first==alfap[2].first) {
             wordfinal.push_back(alfap[rand()%3].second);
         }else if (alfap[0].first==alfap[1].first) {
             wordfinal.push_back(alfap[rand()%2].second);
