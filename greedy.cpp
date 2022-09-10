@@ -7,15 +7,20 @@
 #include <algorithm>
 #include <time.h>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
+
 
 vector<string> w;
 int N, M, th;
 
 ifstream leerArchivo(const string &nombreArchivo, const string &threshold)
 {
-    ifstream archivo(nombreArchivo);
+
+    string directorio = "dataset/";
+    directorio+= nombreArchivo;
+    ifstream archivo(directorio);
 
     string linea;
 
@@ -70,16 +75,18 @@ int main(int argc, const char *argv[])
     }
     else
     {
-        archivo = leerArchivo("100-300-001.txt", "0.85");
+        archivo = leerArchivo("100-600-010.txt", "0.75");
     }
 
-    cout << "termine de leer" << endl;
+    // cout << "termine de leer" << endl;
 
     vector<char> wordfinal;
 
     clock_t start;
+    double tiempo = 0.0;
 
-    
+    start = (double)clock();
+
     int iteracion = 0;
 
     do
@@ -184,11 +191,13 @@ int main(int argc, const char *argv[])
 
     } while (iteracion < M);
 
-    for (int i = 0; i < M; i++)
-    {
-        cout << wordfinal[i];
-    }
-    cout << endl;
+    // muestra string generado 
+
+    // for (int i = 0; i < M; i++)
+    // {
+    //     cout << wordfinal[i];
+    // }
+    // cout << endl;
 
     int p = 0;
     int dif = 0;
@@ -211,5 +220,11 @@ int main(int argc, const char *argv[])
         }
     }
 
+
+    //puntaje
+    tiempo += ((double)clock() - start);
+    tiempo = tiempo / (double)CLOCKS_PER_SEC;
+
+    cout<<tiempo<<endl;
     cout << p << endl;
 }
