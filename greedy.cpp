@@ -6,16 +6,17 @@
 #include <map>
 #include <algorithm>
 #include <time.h>
+#include <chrono>
 
 using namespace std;
 
 vector<string> w;
 int N, M, th;
 
-ifstream leerArchivo(const string& nombreArchivo, const string& threshold)
+ifstream leerArchivo(const string &nombreArchivo, const string &threshold)
 {
     ifstream archivo(nombreArchivo);
-    
+
     string linea;
 
     while (getline(archivo, linea))
@@ -31,7 +32,7 @@ ifstream leerArchivo(const string& nombreArchivo, const string& threshold)
     auto it = nombreArchivo.begin();
     int cont = 0; // contador de ' - '
     string s;
-    while (*it != '.')  //5-4-001.txt
+    while (*it != '.') // 5-4-001.txt
     {
         if (*it != '-')
         {
@@ -56,7 +57,8 @@ ifstream leerArchivo(const string& nombreArchivo, const string& threshold)
     return archivo;
 }
 
-int main(int argc, const char* argv[]){
+int main(int argc, const char *argv[])
+{
 
     srand(time(NULL));
 
@@ -68,44 +70,48 @@ int main(int argc, const char* argv[]){
     }
     else
     {
-        archivo = leerArchivo("100-300-001.txt", "0.75");
+        archivo = leerArchivo("100-300-001.txt", "0.85");
     }
 
     cout << "termine de leer" << endl;
 
     vector<char> wordfinal;
-    int iteracion=0;
+
+    clock_t start;
+
+    
+    int iteracion = 0;
 
     do
     {
 
-        vector<pair<int,char>> alfap;
-        alfap.push_back(pair<int,char>(0,'A'));
-        alfap.push_back(pair<int,char>(0,'G'));
-        alfap.push_back(pair<int,char>(0,'C'));
-        alfap.push_back(pair<int,char>(0,'T'));
+        vector<pair<int, char>> alfap;
+        alfap.push_back(pair<int, char>(0, 'A'));
+        alfap.push_back(pair<int, char>(0, 'G'));
+        alfap.push_back(pair<int, char>(0, 'C'));
+        alfap.push_back(pair<int, char>(0, 'T'));
         alfap[0].first = 0;
         alfap[1].first = 0;
         alfap[2].first = 0;
         alfap[3].first = 0;
 
-    //    cout<<"b"<<endl;
+        //    cout<<"b"<<endl;
         for (int i = 0; i < N; i++)
         {
             // cout << i << " " << N << endl;
-            if (w[i][iteracion]=='A')
+            if (w[i][iteracion] == 'A')
             {
                 alfap[0].first++;
             }
-            if (w[i][iteracion]=='G')
+            if (w[i][iteracion] == 'G')
             {
                 alfap[1].first++;
             }
-             if (w[i][iteracion]=='C')
+            if (w[i][iteracion] == 'C')
             {
                 alfap[2].first++;
             }
-             if (w[i][iteracion]=='T')
+            if (w[i][iteracion] == 'T')
             {
                 alfap[3].first++;
             }
@@ -114,25 +120,31 @@ int main(int argc, const char* argv[]){
         // cout<<"a"<<endl;
         sort(alfap.begin(), alfap.end());
 
-            // for(size_t i = 1; i < alfap.size(); i++){
+        // for(size_t i = 1; i < alfap.size(); i++){
 
-            //     if(alfap[i-1].first == alfap[i].first){
-            //         wordfinal.push_back(alfap[rand()%i].second);
-            //     }
-            // }
+        //     if(alfap[i-1].first == alfap[i].first){
+        //         wordfinal.push_back(alfap[rand()%i].second);
+        //     }
+        // }
 
         // wordfinal.push_back(alfap[0].second);
 
-        if (alfap[0].first==alfap[3].first) {
-            wordfinal.push_back(alfap[rand()%4].second);
-        }else if (alfap[0].first==alfap[2].first) {
-            wordfinal.push_back(alfap[rand()%3].second);
-        }else if (alfap[0].first==alfap[1].first) {
-            wordfinal.push_back(alfap[rand()%2].second);
-        }else{
+        if (alfap[0].first == alfap[3].first)
+        {
+            wordfinal.push_back(alfap[rand() % 4].second);
+        }
+        else if (alfap[0].first == alfap[2].first)
+        {
+            wordfinal.push_back(alfap[rand() % 3].second);
+        }
+        else if (alfap[0].first == alfap[1].first)
+        {
+            wordfinal.push_back(alfap[rand() % 2].second);
+        }
+        else
+        {
             wordfinal.push_back(alfap[0].second);
         }
-
 
         // }else if (alfap[0].first==alfap[2].first && alfap[0].first==alfap[3].first) {
         //     int aux;
@@ -158,7 +170,6 @@ int main(int argc, const char* argv[]){
 
         // wordfinal[iteracion]=alfap[0].second;
 
-
         // if (peso0==peso1)
         // {
         //     wordfinal[iteracion]=alfabeto[0];
@@ -175,32 +186,30 @@ int main(int argc, const char* argv[]){
 
     for (int i = 0; i < M; i++)
     {
-        cout<<wordfinal[i];
+        cout << wordfinal[i];
     }
-    cout<<endl;
+    cout << endl;
 
-    int p=0;
-    int dif=0;
+    int p = 0;
+    int dif = 0;
 
     for (int i = 0; i < N; i++)
     {
         // cout<<w[i]<<" "<< th <<endl;
-        dif=0;
+        dif = 0;
         for (int j = 0; j < M; j++)
         {
 
-            if (wordfinal[j]!=w[i][j])
+            if (wordfinal[j] != w[i][j])
             {
                 dif++;
             }
         }
-        if (dif>=th)
+        if (dif >= th)
         {
             p++;
         }
-
     }
 
-    cout<<p<<endl;
-
+    cout << p << endl;
 }
