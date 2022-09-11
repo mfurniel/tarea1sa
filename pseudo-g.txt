@@ -1,0 +1,50 @@
+Greddy(N,M,threshold){
+    words[N]
+    objetive_function <-0
+    iteracion <- 0
+    do
+        pair alfap[2]
+        for each letter of alphabet
+            alfap[0].peso <- 0
+            alfap[0].alfabeto <- letter
+        endfor
+        for i < N
+            for each letter of alphabet
+                if words[iteracion][i] == letter
+                    alfap.peso++
+                end if
+            endfor
+        endfor
+
+        sort(alfap)
+
+        if alfap[0].peso == alfap[3].peso
+            wordfinal<-alfap[radom%4].alfabeto
+        else if alfap[0].peso == alfap[2].peso
+            wordfinal<-alfap[radom%3].alfabeto
+        else if alfap[0].peso == alfap[2].peso
+            wordfinal<-alfap[radom%2].alfabeto
+        else 
+            wordfinal<-alfap[0.alfabeto
+        end if
+
+        iteracion ++;
+
+    while(iteacion < M)
+    
+    dif <- 0
+
+    for i < N
+        for j<M
+            if wordfinal[j]!=word[i][j] 
+                dif++
+            endif
+        endfor
+        if dif >= threshold
+           objetive_function++
+        endif
+    endfor
+
+    return(objetive_function)
+    
+}
