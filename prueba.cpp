@@ -7,8 +7,7 @@ using namespace std;
 int main(){
     string directorio = "dataset/100-300-00";
     int i;
-    for (i = 1; i < 10; i++)
-    {
+    
         string dirAux = directorio + to_string(i);
         cout << dirAux << endl;
     }

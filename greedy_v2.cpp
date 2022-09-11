@@ -11,17 +11,14 @@
 
 using namespace std;
 
-
-vector<string> w;
 int N, M, th;
 
-ifstream leerArchivo(const string &nombreArchivo, const string &threshold)
+ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vector<string> &w)
 {
 
-    
-
     string directorio = "dataset/";
-    directorio+= nombreArchivo;
+    directorio += nombreArchivo;
+    // cout << directorio << endl;
     ifstream archivo(directorio);
 
     string linea;
@@ -64,36 +61,14 @@ ifstream leerArchivo(const string &nombreArchivo, const string &threshold)
     return archivo;
 }
 
-int main(int argc, const char *argv[])
+void ffmsp(const string &nombreArchivo, const string &threshold)
 {
-
-     srand(time(NULL));
-
-
-    for (int a = 1; a < 10; a++)
-    {
-
-   
-    ifstream archivo;
-
-    if (argc == 5)
-    {
-        archivo = leerArchivo(argv[2], argv[4]);
-    }
-    else
-    {   
-        cout<<"----------------"<<endl;
-        cout<<a<<endl;
-        cout<<"----------------"<<endl;
-        string nom="100-300-00";
-        string tx=".txt";
-        string dirAux = nom + to_string(a);
-        dirAux = dirAux+tx;
-        archivo = leerArchivo(dirAux, "0.85");
-    }
-
-    // cout << "termine de leer" << endl;
-
+    vector<string> w;
+    leerArchivo(nombreArchivo, threshold, w);
+    // for (auto it = w.begin(); it != w.end(); it++)
+    // {
+    //     cout << *it << endl;
+    // }
     vector<char> wordfinal;
 
     clock_t start;
@@ -167,45 +142,11 @@ int main(int argc, const char *argv[])
             wordfinal.push_back(alfap[0].second);
         }
 
-        // }else if (alfap[0].first==alfap[2].first && alfap[0].first==alfap[3].first) {
-        //     int aux;
-        //     do{
-        //        aux=rand()%4;
-        //     }while(aux==1);
-        //     wordfinal.push_back(alfap[aux].second);
-        // }else if (alfap[0].first==alfap[1].first)   {
-        //     wordfinal.push_back(alfap[rand()%2].second);
-        // }else if(alfap[0].first==alfap[2].first)    {
-        //     int aux;
-        //     do{
-        //        aux=rand()%3;
-        //     }while(aux==1);
-        //     wordfinal.push_back(alfap[aux].second);
-        // }else if (alfap[0].first==alfap[3].first)   {
-        //     int aux;
-        //     do{
-        //        aux=rand()%4;
-        //     }while(aux==1 || aux==2);
-        //     wordfinal.push_back(alfap[aux].second);
-        // }
-
-        // wordfinal[iteracion]=alfap[0].second;
-
-        // if (peso0==peso1)
-        // {
-        //     wordfinal[iteracion]=alfabeto[0];
-        // }else if (peso0<peso1)
-        // {
-        //      wordfinal[iteracion]=alfabeto[0];
-        // } else{
-        //      wordfinal[iteracion]=alfabeto[1];
-        // }
-
         iteracion++;
 
     } while (iteracion < M);
 
-    // muestra string generado 
+    // muestra string generado
 
     // for (int i = 0; i < M; i++)
     // {
@@ -234,13 +175,45 @@ int main(int argc, const char *argv[])
         }
     }
 
-
-    //puntaje
+    // puntaje
     tiempo += ((double)clock() - start);
     tiempo = tiempo / (double)CLOCKS_PER_SEC;
 
-    cout<<tiempo<<endl;
-    cout << p << endl;
+    cout << p << '\t' << tiempo << endl;
+    // cout << p << endl;
+}
 
+int main(int argc, const char *argv[])
+{
+    srand(time(NULL));
+
+    string stringAux = "100-300-00";
+    vector<string> threshold{"0.75", "0.80", "0.85"};
+    for (auto it = threshold.begin(); it != threshold.end(); it++)
+    {
+        cout << "---" << *it << "---" << endl;
+        for (int k = 1; k < 10; k++)
+        {
+            cout << k << "\t";
+            string nombreArchivo = stringAux + to_string(k);
+            nombreArchivo += ".txt";
+            ffmsp(nombreArchivo, *it);
+        }
+        cout << 10 << "\t";
+        ffmsp("100-300-010.txt", *it);
+        cout << endl;
     }
+
+    // ifstream archivo;
+
+    // if (argc == 5)
+    // {
+    //     archivo = leerArchivo(argv[2], argv[4]);
+    // }
+    // else
+    // {
+    //     archivo = leerArchivo("100-600-010.txt", "0.75");
+    // }
+
+    // cout << "termine de leer" << endl;
 }
