@@ -1,0 +1,1 @@
+Importante: para la ejecución del programa se debe incluir una carpeta con el nombre “dataset” donde esté todo el dataset.
