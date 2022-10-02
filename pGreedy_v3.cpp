@@ -9,9 +9,22 @@
 #include <chrono>
 #include <iomanip>
 
+#include <unistd.h>
+#include <signal.h>
+
 using namespace std;
 
 int N, M, th, alpha;
+vector<string> w;
+vector<pair<int,string>> empates;
+
+
+void sig_handler(int sig) {
+    if (sig == SIGALRM) {
+        printf("llega senal de fin hijo\n");
+        exit(0);
+    } 
+}
 
 ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vector<string> &w, const string &nivelDeDeterminismo)
 {
@@ -67,9 +80,9 @@ ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vecto
     return archivo;
 }
 
-void ffmsp(const string &nombreArchivo, const string &threshold, const string &nivelDeDeterminismo)
+vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const string &nivelDeDeterminismo)
 {
-    vector<string> w;
+    // vector<string> w;
     leerArchivo(nombreArchivo, threshold, w, nivelDeDeterminismo);
     // for (auto it = w.begin(); it != w.end(); it++)
     // {
@@ -136,18 +149,22 @@ void ffmsp(const string &nombreArchivo, const string &threshold, const string &n
 
             if (alfap[0].first == alfap[3].first)
             {
+                cout<<"empate3 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 4].second);
             }
             else if (alfap[0].first == alfap[2].first)
             {
+                cout<<"empate2 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 3].second);
             }
             else if (alfap[0].first == alfap[1].first)
             {
+                cout<<"empate1 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 2].second);
             }
             else
             {
+                
                 wordfinal.push_back(alfap[0].second);
             }
 
@@ -195,13 +212,51 @@ void ffmsp(const string &nombreArchivo, const string &threshold, const string &n
 
     cout << p << '\t' << tiempo << endl;
     // cout << p << endl;
+    return wordfinal;
+}
+void localSearch(vector<char>& wordfinal){
+    vector<char> genes = {'A', 'C', 'G', 'T'};
+    
+    int p = 0;
+    int dif = 0;
+
+    for (int i = 0; i < N; i++)
+    {
+        dif = 0;
+        for (int j = 0; j < M; j++)
+        {
+
+            if (wordfinal[j] != w[i][j])
+            {
+                dif++;
+            }
+        }
+        if (dif >= th)
+        {
+            p++;
+        }
+    }
 }
 
 int main(int argc, const char *argv[])
 {
+    //cosa -i nombreArchivo -t tiempoMaxSec [otras weaitas]
+    signal(SIGCHLD, sig_handler);
+    int porfavor_detente= 10;//stoi(argv[4]);
+    alarm(porfavor_detente);
+    
     srand(time(NULL));
-    if (argc == 6)
+    if (false)
     {
-        ffmsp(argv[2], argv[4], argv[5]);
+        //nombreArchivo, threshold, nivelDeDeterminismo
+        pGreedy("200-600-001.txt", "0.85", "1");
+    }else{
+        cout << "error en el formato" << endl;
+        vector<char> wordfinal = pGreedy("100-300-001.txt", "0.85", "1");
+        // while(true){
+        //     // localSearch(wordfinal);
+        // }
     }
+    
+    
 }

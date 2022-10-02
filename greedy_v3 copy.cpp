@@ -9,19 +9,9 @@
 #include <chrono>
 #include <iomanip>
 
-#include <unistd.h>
-#include <signal.h>
-
 using namespace std;
 
 int N, M, th;
-
-void sig_handler(int sig) {
-    if (sig == SIGALRM) {
-        exit(0);
-        // printf("llega senal de fin hijo\n");
-    }
-}
 
 ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vector<string> &w)
 {
@@ -201,16 +191,9 @@ void ffmsp(const string &nombreArchivo, const string &threshold)
 int main(int argc, const char *argv[])
 {
     srand(time(NULL));
-    alarm(3);
-    while(true){
-        srand(time(NULL));
-        if (argc == 5)
-        {
-            ffmsp(argv[2], argv[4]);
-        }
-        else{
-            cout << "error en el formato" << endl;
-        }
+    if (argc == 5)
+    {
+        ffmsp(argv[2], argv[4]);
     }
 
 }
