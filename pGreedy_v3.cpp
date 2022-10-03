@@ -17,6 +17,9 @@ using namespace std;
 int N, M, th, alpha;
 vector<string> w;
 vector<pair<int,string>> empates;
+vector<char> genes = {'A', 'C', 'G', 'T'};
+int f_i;
+
 
 
 void sig_handler(int sig) {
@@ -82,6 +85,8 @@ ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vecto
 
 vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const string &nivelDeDeterminismo)
 {
+    vector<pair<int,string>> newEmpates;
+    empates=move(newEmpates);
     // vector<string> w;
     leerArchivo(nombreArchivo, threshold, w, nivelDeDeterminismo);
     // for (auto it = w.begin(); it != w.end(); it++)
@@ -96,7 +101,6 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
     start = (double)clock();
 
     int iteracion = 0;
-    vector<char> genes = {'A', 'C', 'G', 'T'};
 
     do
     {
@@ -149,18 +153,48 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
 
             if (alfap[0].first == alfap[3].first)
             {
-                cout<<"empate3 "<<iteracion<<endl;
+                // cout<<"empate3 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 4].second);
+                pair<int,string> aux;
+                aux.first=iteracion;
+                for (int i = 0; i <4; i++)
+                {
+                    // if (wordfinal[iteracion]!=alfap[i].second)
+                    // {
+                         aux.second.push_back(alfap[i].second);
+                    // }
+                }
+                empates.push_back(aux);
             }
             else if (alfap[0].first == alfap[2].first)
             {
-                cout<<"empate2 "<<iteracion<<endl;
+                // cout<<"empate2 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 3].second);
+                 pair<int,string> aux;
+                aux.first=iteracion;
+                for (int i = 0; i <3; i++)
+                {
+                    // if (wordfinal[iteracion]!=alfap[i].second)
+                    // {
+                         aux.second.push_back(alfap[i].second);
+                    // }
+                }
+                empates.push_back(aux);
             }
             else if (alfap[0].first == alfap[1].first)
             {
-                cout<<"empate1 "<<iteracion<<endl;
+                // cout<<"empate1 "<<iteracion<<endl;
                 wordfinal.push_back(alfap[rand() % 2].second);
+                pair<int,string> aux;
+                aux.first=iteracion;
+                for (int i = 0; i <2; i++)
+                {
+                    // if (wordfinal[iteracion]!=alfap[i].second)
+                    // {
+                         aux.second.push_back(alfap[i].second);
+                    // }
+                }
+                empates.push_back(aux);
             }
             else
             {
@@ -205,7 +239,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
             p++;
         }
     }
-
+    f_i=p;
     // puntaje
     tiempo += ((double)clock() - start);
     tiempo = tiempo / (double)CLOCKS_PER_SEC;
@@ -214,19 +248,97 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
     // cout << p << endl;
     return wordfinal;
 }
-void localSearch(vector<char>& wordfinal){
-    vector<char> genes = {'A', 'C', 'G', 'T'};
+
+// void localSearch(vector<char>& wordfinal){
+//     // cout<<"test1"<<endl;
+//     //calcula fitness final
+//     int fitnessWordfinal= 0;
+//     for (int i = 0; i < N; i++){
+//         int dif = 0;
+//         for (int j = 0; j < M; j++)
+//         {
+
+//             if (wordfinal[j] != w[i][j])
+//             {
+//                 dif++;
+//             }
+//         }
+
+//         if (dif >= th)
+//         {
+//             fitnessWordfinal++;
+//         }
+//     }
+//     // cout<<"test2"<<endl;
+//     int largo= empates.size();  //en cuantas columnas hubo empate
+//     for(int i=0; i<largo; i++){
+//         int columna= empates[i].first; 
+//         // cout<<empates[i].first<<endl;
+//         // cout<<"test3: largo"<<largo<<endl;
+//         // cout<<"test3.5: columna"<<columna<<endl;
+//         vector<char> vecino=wordfinal;
+//         //  for (int i = 0; i < wordfinal.size(); i++)
+//         // {
+//         //     cout<<vecino[i];
+//         // }
+//         // cout<<endl;
+
+//         for(int k=0; k<empates[i].second.size();k++){   //empates.first es la columna y second son los caracteres
+//             //wordfinal[columna]=
+//             // cout<<"test4"<<endl;
+//             // cout<<empates[i].second[k]<<endl;   
+
+//             vecino[columna]=empates[i].second[k];
+           
+//             int fitnessVecino=0;
+//             // cout<<"test5"<<endl;
+//             //calcular fitness de wordfinal y vecino y comparar
+//             for (int i = 0; i < N; i++){
+//                 int dif = 0;
+//                 for (int j = 0; j < M; j++)
+//                 {
+
+//                     if (wordfinal[j] != w[i][j])
+//                     {
+//                         dif++;
+//                     }
+//                 }
+                
+//                 if (dif > th)
+//                 {
+//                     fitnessVecino++;
+//                 }
+//             }
+
+//             if(fitnessVecino>=fitnessWordfinal){
+//                 wordfinal= vecino;
+//                 fitnessWordfinal= fitnessVecino;
+//             }
+//         }
+//     }
+//     // cout<<"A"<<endl;
+//     // for (int i = 0; i < wordfinal.size(); i++)
+//     // {
+//     //     cout<<wordfinal[i];
+//     // }
+//     // cout<<endl;
     
+//      cout<<fitnessWordfinal<<endl;
+//     asd=fitnessWordfinal;
+// }
+
+int fitness(vector<char> word){
     int p = 0;
     int dif = 0;
 
     for (int i = 0; i < N; i++)
     {
+        // cout<<w[i]<<" "<< th <<endl;
         dif = 0;
         for (int j = 0; j < M; j++)
         {
 
-            if (wordfinal[j] != w[i][j])
+            if (word[j] != w[i][j])
             {
                 dif++;
             }
@@ -236,27 +348,73 @@ void localSearch(vector<char>& wordfinal){
             p++;
         }
     }
+    return p;
+}
+
+void localSearch(vector<char>& wordfinal){
+   
+    int mejorFitness = fitness(wordfinal);
+
+    for (int i = 0; i < M; i++) {
+    vector<char> aux = wordfinal;
+        for(int j = 0; j < 4; j++){
+            //aux[i]=genes[j];
+            //aux[azar]=genes[azar]
+            //aux[azar]=genes[azar]
+            aux[rand()%M]=genes[rand()%4];  //cambia tres caracteres por otros tres elegidos al azar
+            aux[rand()%M]=genes[rand()%4];
+            aux[rand()%M]=genes[rand()%4];
+           
+   
+            int fitnessAuxiliar= fitness(aux);
+            if (fitnessAuxiliar>mejorFitness)
+            {
+                if(fitnessAuxiliar!=mejorFitness){
+                    cout << mejorFitness<< endl; 
+                }
+                wordfinal= aux;
+                mejorFitness= fitnessAuxiliar;
+                //imprimir el mejor fitness encontrado y el tiempo que se demoro en calcularlo
+            }
+            
+        }
+    }
+
+    
 }
 
 int main(int argc, const char *argv[])
 {
     //cosa -i nombreArchivo -t tiempoMaxSec [otras weaitas]
     signal(SIGCHLD, sig_handler);
-    int porfavor_detente= 10;//stoi(argv[4]);
-    alarm(porfavor_detente);
+    int porfavor_detente= 15;//stoi(argv[4]);
+    // alarm(porfavor_detente);
     
     srand(time(NULL));
     if (false)
     {
         //nombreArchivo, threshold, nivelDeDeterminismo
-        pGreedy("200-600-001.txt", "0.85", "1");
+        pGreedy("200-600-001.txt", "0.75", "1");
     }else{
         cout << "error en el formato" << endl;
-        vector<char> wordfinal = pGreedy("100-300-001.txt", "0.85", "1");
-        // while(true){
-        //     // localSearch(wordfinal);
+        vector<char> wordfinal = pGreedy("200-300-001.txt", "0.75", "1");
+        // for (int i = 0; i < empates.size(); i++)
+        // {
+        //     cout<<empates[i].first<<" "<<empates[i].second<<endl;
         // }
+         for (int i = 0; i < wordfinal.size(); i++)
+        {
+            cout<<wordfinal[i];
+        }
+        cout<<endl;
+        while(true){
+            // cout << "kk de gato1" << endl;
+            localSearch(wordfinal);
+            // cout << "kk de gato2" << endl;
+
+        }
     }
+   
     
     
 }
