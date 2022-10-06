@@ -19,7 +19,6 @@ vector<string> w;
 vector<pair<int,string>> empates;
 vector<char> genes = {'A', 'C', 'G', 'T'};
 int f_i;
-double tiempo = 0.0;
 
 
 
@@ -27,7 +26,7 @@ void sig_handler(int sig) {
     if (sig == SIGALRM) {
         printf("llega senal de fin hijo\n");
         exit(0);
-    }
+    } 
 }
 
 ifstream leerArchivo(const string &nombreArchivo, const string &threshold, vector<string> &w, const string &nivelDeDeterminismo)
@@ -97,7 +96,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
     vector<char> wordfinal;
 
     clock_t start;
-    tiempo= 0.0;    //resetear tiempo
+    double tiempo = 0.0;
 
     start = (double)clock();
 
@@ -199,7 +198,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
             }
             else
             {
-
+                
                 wordfinal.push_back(alfap[0].second);
             }
 
@@ -273,7 +272,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
 //     // cout<<"test2"<<endl;
 //     int largo= empates.size();  //en cuantas columnas hubo empate
 //     for(int i=0; i<largo; i++){
-//         int columna= empates[i].first;
+//         int columna= empates[i].first; 
 //         // cout<<empates[i].first<<endl;
 //         // cout<<"test3: largo"<<largo<<endl;
 //         // cout<<"test3.5: columna"<<columna<<endl;
@@ -287,10 +286,10 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
 //         for(int k=0; k<empates[i].second.size();k++){   //empates.first es la columna y second son los caracteres
 //             //wordfinal[columna]=
 //             // cout<<"test4"<<endl;
-//             // cout<<empates[i].second[k]<<endl;
+//             // cout<<empates[i].second[k]<<endl;   
 
 //             vecino[columna]=empates[i].second[k];
-
+           
 //             int fitnessVecino=0;
 //             // cout<<"test5"<<endl;
 //             //calcular fitness de wordfinal y vecino y comparar
@@ -304,7 +303,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
 //                         dif++;
 //                     }
 //                 }
-
+                
 //                 if (dif > th)
 //                 {
 //                     fitnessVecino++;
@@ -323,7 +322,7 @@ vector<char> pGreedy(const string &nombreArchivo, const string &threshold, const
 //     //     cout<<wordfinal[i];
 //     // }
 //     // cout<<endl;
-
+    
 //      cout<<fitnessWordfinal<<endl;
 //     asd=fitnessWordfinal;
 // }
@@ -352,94 +351,70 @@ int fitness(vector<char> word){
     return p;
 }
 
-bool localSearch(vector<char>& wordfinal){
+void localSearch(vector<char>& wordfinal){
+   
     int mejorFitness = fitness(wordfinal);
 
-
-
-     for (int i = 0; i < M; i++) {
+    for (int i = 0; i < M; i++) {
     vector<char> aux = wordfinal;
-          for(int j = 0; j < 4; j++){
-            // aux[i]=genes[j];
+        for(int j = 0; j < 4; j++){
+            //aux[i]=genes[j];
             //aux[azar]=genes[azar]
             //aux[azar]=genes[azar]
             aux[rand()%M]=genes[rand()%4];  //cambia tres caracteres por otros tres elegidos al azar
             aux[rand()%M]=genes[rand()%4];
             aux[rand()%M]=genes[rand()%4];
-
-            int fitnessAuxiliar = fitness(aux);
-
-            if (fitnessAuxiliar==mejorFitness)
-            {
-                wordfinal= aux;
-            }
-
+           
+   
+            int fitnessAuxiliar= fitness(aux);
             if (fitnessAuxiliar>mejorFitness)
             {
                 if(fitnessAuxiliar!=mejorFitness){
-                    cout << fitnessAuxiliar << "\t";
-
+                    cout << mejorFitness<< endl; 
                 }
                 wordfinal= aux;
                 mejorFitness= fitnessAuxiliar;
                 //imprimir el mejor fitness encontrado y el tiempo que se demoro en calcularlo
-                return true;
             }
+            
+        }
+    }
 
-       }
-     }
-    return false;
-
+    
 }
 
 int main(int argc, const char *argv[])
 {
-    // ./grasp -i nombreArchivo -t tiempoMaxSec -th threashold -p nivelDeDeterminismo
+    //cosa -i nombreArchivo -t tiempoMaxSec [otras weaitas]
     signal(SIGCHLD, sig_handler);
-
-
+    int porfavor_detente= 15;//stoi(argv[4]);
+    // alarm(porfavor_detente);
+    
     srand(time(NULL));
-    vector<char> wordfinal;
-    if (argc == 9)  //se puede mejorar
+    if (false)
     {
-        // cout << "tiempo: " << argv[4] << endl;
-        int porfavor_detente= stoi(argv[4]);
-        alarm(porfavor_detente);
         //nombreArchivo, threshold, nivelDeDeterminismo
-        // cout << "nombreArchivo: " << argv[2] << " threshold: " << argv[6] << " nivelDeDeterminismo: " << argv[8] << endl;
-        wordfinal = pGreedy(argv[2], argv[6], argv[8]);
-
+        pGreedy("200-600-001.txt", "0.85", "1");
     }else{
         cout << "error en el formato" << endl;
-
-        int porfavor_detente= 90;
-        alarm(porfavor_detente);
-        wordfinal = pGreedy("200-600-001.txt", "0.80", "1");
-    }
-
+        vector<char> wordfinal = pGreedy("200-300-001.txt", "0.85", "1");
         // for (int i = 0; i < empates.size(); i++)
         // {
         //     cout<<empates[i].first<<" "<<empates[i].second<<endl;
         // }
-
-        //  for (int i = 0; i < wordfinal.size(); i++)
-        // {
-        //     cout<<wordfinal[i];
-        // }
-        // cout<<endl;
-
-    while(true){
-        clock_t start= clock();
-        if(localSearch(wordfinal)){
-            // tiempo = tiempo ;
-            cout << tiempo / (double)CLOCKS_PER_SEC << endl;
-            // tiempo= 0.0;
+         for (int i = 0; i < wordfinal.size(); i++)
+        {
+            cout<<wordfinal[i];
         }
-        else{
-            tiempo += ((double)clock() - start);
+        cout<<endl;
+        while(true){
+            // cout << "kk de gato1" << endl;
+            localSearch(wordfinal);
+            // cout << "kk de gato2" << endl;
+
         }
     }
-
-
-
+   
+    
+    
 }
