@@ -9,6 +9,8 @@ vector<pair<int, string>> empates;
 vector<char> genes = {'A', 'C', 'G', 'T'};
 int f_i;
 double tiempo = 0.0;
+vector<vector<char>> lapobla;
+ vector<vector<char>> padres;
 
 void sig_handler(int sig) {
     if (sig == SIGALRM) {

@@ -1,0 +1,37 @@
+Input
+
+P= producir poblacion inicial
+fitnes= evaluar (P) (usar pgreedy pero con que probabilidad?)
+
+while(condiciones de termino no se cumplan){
+	P'= seleccionarPadres(P, fitness)
+	O= producirDescendientes(P')
+	O'= introducirErrorMutacion(O, R)
+	P= establecerNuevaPoblacion(O', P)
+	fitness= evaluar (P)
+}
+
+seleccionarPadres:
+campeonatos?
+ruleta
+random
+(cuantos padres?)
+
+
+producirDescendientes:
+con que variaciones?
+
+
+introducirErrorMutacion:
+porcentaje de mutacion?
+
+
+establecerNuevaPoblacion:
+Reemplazo elitista.
+•Generation-wise
+•Replacement
+•Steady-State
+
+
+
+

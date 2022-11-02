@@ -15,11 +15,12 @@
 #include "fun.h"
 
 using namespace std;
+vector<vector<char>> mortalkombat(vector<vector<char>> winersactual);
 
 vector<char> pGreedy(const string &nombreArchivo, const string &threshold,
                      const string &nivelDeDeterminismo) {
-    cout << nombreArchivo << "\t" << threshold << "\t" << nivelDeDeterminismo
-         << endl;
+    // cout << nombreArchivo << "\t" << threshold << "\t" << nivelDeDeterminismo
+        //  << endl;
     vector<pair<int, string>> newEmpates;
     empates = move(newEmpates);
     // vector<string> w;
@@ -210,6 +211,22 @@ bool localSearch2(vector<char> &wordfinal) {
     return false;
 }
 
+void mutacion(vector<char> &mijo, const float mutation_rate){
+    for(int i=0; i<M; i++){
+        if (rand()%101 <= mutation_rate){
+            //mutar
+            char antiguo = mijo[i];
+            while (antiguo== mijo[i]){
+                mijo[i]= genes[rand()%4];
+            }   
+        }
+    }
+}
+
+
+
+
+
 int main(int argc, const char *argv[]) {
     map<string, string> param;
     param["-i"] = "100-300-001.txt";
@@ -232,14 +249,104 @@ int main(int argc, const char *argv[]) {
     //     localSearch2(wordfinal);
     // }
 
-    while (true) {
-        clock_t start = clock();
-        if (localSearch2(wordfinal)) {
-            // tiempo = tiempo ;
-            cout << tiempo / (double)CLOCKS_PER_SEC << endl;
-            // tiempo= 0.0;
-        } else {
-            tiempo += ((double)clock() - start);
+    // while (true) {
+    //     clock_t start = clock();
+    //     if (localSearch2(wordfinal)) {
+    //         // tiempo = tiempo ;
+    //         cout << tiempo / (double)CLOCKS_PER_SEC << endl;
+    //         // tiempo= 0.0;
+    //     } else {
+    //         tiempo += ((double)clock() - start);
+    //     }
+    // }
+
+
+      for (int i = 0; i < 32; i++)
+        {
+            // wordfinal = pGreedy("100-600-001.txt", "0.75", "0.5");
+            wordfinal = pGreedy(param["-i"], param["-th"], param["-det"]);
+            lapobla.push_back(wordfinal);
+            // cout<<"i: "<<i<<"   ";
+            // for (int i = 0; i < 10; i++)
+            // {
+            //       cout<<wordfinal[i];
+            // }
+            // cout<<"     "<<fitness(wordfinal)<<endl;
+          
         }
-    }
+
+    
+       padres=mortalkombat(lapobla);
+       padres.push_back(lapobla[random()%32]);
+
+
+
+
+        cout<<"-------1--------"<<endl;
+        // for (int i = 0; i < 3; i++)
+        // {
+        //     padres.push_back(lapobla[i]);
+        // }
+        // cout<<"-------2--------"<<endl;
+        // cout<<fitness(lapobla[1])<<endl;
+        //  cout<<fitness(padres[2])<<endl;
+
+        // for (int i = 0; i < 20; i++)
+        // {
+        //     // cout<<"-------3--------"<<i<<endl;
+        //      if (fitness(lapobla[i])<fitness(padres[2]))
+        //     {
+        //         padres[2]=lapobla[i];
+        //     }
+
+        //     if (fitness(lapobla[i])>fitness(padres[0]))
+        //     {
+        //         padres[0]=lapobla[i];
+        //         continue;
+        //     }
+
+        //     if (fitness(lapobla[i])>fitness(padres[1]))
+        //     {
+        //         padres[1]=lapobla[i];
+        //         continue;
+        //     }
+            
+        // }
+
+        cout<<"---------------"<<endl;
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                  cout<<padres[i][j];
+             }
+             cout<<"     fit: "<<fitness(padres[i])<<endl;
+        }
+        
+        vector<vector<char>> hijos;
+
+
+
+
+
+}
+
+ vector<vector<char>> mortalkombat(vector<vector<char>> winersactual){
+    vector<vector<char>> winersfuturo; 
+    if (winersactual.size()==2) {
+        return winersactual;
+    }  
+    for (int i = 0; i < winersactual.size(); i=i+2)  {          
+            if (fitness(winersactual[i])>fitness(winersactual[i+1]))  {
+               
+                winersfuturo.push_back(winersactual[i]);
+            }else{
+              
+                winersfuturo.push_back(winersactual[i+1]);
+            } 
+        }
+        winersactual=winersfuturo;
+        return mortalkombat(winersactual);
+
 }
